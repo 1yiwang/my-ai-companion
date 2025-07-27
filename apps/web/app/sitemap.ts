@@ -37,10 +37,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Create Convex client
     const client = new ConvexHttpClient(process.env["NEXT_PUBLIC_CONVEX_URL"]);
 
+    
     // Set deploy key for admin access during build
-    if (process.env["CONVEX_DEPLOY_KEY"]) {
-      client.setAuth(process.env["CONVEX_DEPLOY_KEY"]);
-    }
+    //if (process.env["CONVEX_DEPLOY_KEY"]) {
+    //  client.setAuth(process.env["CONVEX_DEPLOY_KEY"]);
+    //}
  
     // Fetch data with proper error handling
     const [charactersResult, imagesResult] = await Promise.allSettled([
