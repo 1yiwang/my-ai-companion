@@ -1,10 +1,16 @@
 import { MetadataRoute } from "next";
 import { api } from "../convex/_generated/api";
-import { ConvexClient } from "convex/browser";
+import { ConvexHttpClient } from "convex/browser";
 
-const client = new ConvexClient(
-  process.env["CONVEX_DEPLOYMENT"] as string,
-);
+
+// Create the client using the PUBLIC URL.
+    const client = new ConvexHttpClient(process.env["NEXT_PUBLIC_CONVEX_URL"]);
+
+
+// Set deploy key for admin access during build
+if (process.env["CONVEX_DEPLOY_KEY"]) {
+  client.setAuth(process.env["CONVEX_DEPLOY_KEY"]);
+}
 
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
