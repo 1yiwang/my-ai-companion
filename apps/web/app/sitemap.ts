@@ -2,9 +2,15 @@ import { MetadataRoute } from "next";
 import { api } from "../convex/_generated/api";
 import { ConvexHttpClient } from "convex/browser";
 
-
+ try {
+    // Check if we have the required environment variables
+    if (!process.env["NEXT_PUBLIC_CONVEX_URL"]) {
+      console.warn("NEXT_PUBLIC_CONVEX_URL not found, returning base sitemap");
+      return baseSitemap;
+    }
+    
 // Create the client using the PUBLIC URL.
-    const client = new ConvexHttpClient(process.env["NEXT_PUBLIC_CONVEX_URL"]);
+const client = new ConvexHttpClient(process.env["NEXT_PUBLIC_CONVEX_URL"]);
 
 
 // Set deploy key for admin access during build
