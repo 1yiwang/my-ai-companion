@@ -1,6 +1,59 @@
 import { MetadataRoute } from "next";
-import { api } from "../convex/_generated/api";
-import { ConvexHttpClient } from "convex/browser";
+// import { api } from "../convex/_generated/api";
+// import { ConvexHttpClient } from "convex/browser";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXTAUTH_URL || "https://my-ai-companion.vercel.app";
+
+  // Static sitemap - temporarily disabled dynamic generation
+  return [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/characters`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/models`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/crystals`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/images`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/stories`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/search`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
+  ];
+}
+
+/* 
+=== ORIGINAL DYNAMIC SITEMAP CODE (COMMENTED OUT FOR LATER USE) ===
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXTAUTH_URL || "https://my-ai-companion.vercel.app";
@@ -88,3 +141,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return baseSitemap;
   }
 }
+
+=== END ORIGINAL CODE ===
+*/
