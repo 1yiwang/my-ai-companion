@@ -2,6 +2,7 @@
   "name": "openroleplay",
   "private": true,
   "scripts": {
+    "postinstall": "cd apps/web && npx convex deploy && cd ../..",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
@@ -18,6 +19,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "next": "^15.4.4"
+    "next": "^15.4.4",
+    "convex": "^1.8.0"
   }
 }

@@ -79,7 +79,8 @@ export const getUserInternal = internalQuery({
 
 export const getUser = async (ctx: any, doNotThrow?: boolean) => {
   const identity = await ctx.auth.getUserIdentity();
-  if (!identity && !doNotThrow) {
+  if (!identity) {
+    if (doNotThrow) return null;
     throw new Error(
       "Called getUserFromTokenIdentifier without authentication present",
     );
@@ -109,7 +110,8 @@ export const getUsername = query({
 export const me = query({
   args: {},
   handler: async (ctx, args) => {
-    const user = await getUser(ctx);
+    const user = await getUser(ctx, true);
+    if (!user) return null;
     if (user?.isBanned) {
       throw new Error("User is banned");
     }
