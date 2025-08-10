@@ -14,6 +14,21 @@ const convex = new ConvexReactClient(
   process.env.NEXT_PUBLIC_CONVEX_URL as string,
 );
 
+function AuthDebug() {
+  const { isLoaded, isSignedIn, getToken } = useAuth();
+  console.log(`Auth state: isLoaded=${isLoaded}, isSignedIn=${isSignedIn}`);
+
+  if (isLoaded && isSignedIn) {
+    getToken({ template: "convex" }).then(token => {
+      console.log("Clerk token:", token ? `Received token of length ${token.length}` : "Token is null");
+    }).catch(err => {
+      console.error("Error getting Clerk token:", err);
+    });
+  }
+
+  return null;
+}
+
 export function AuthenticationProvider({
   children,
 }: {
@@ -41,6 +56,7 @@ export function AuthenticationProvider({
       }}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+        <AuthDebug />
         <I18nextProvider i18n={i18n} defaultNS={"translation"}>
           <Toaster />
           <CrystalDialog />
