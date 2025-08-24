@@ -2,7 +2,7 @@
   "name": "openroleplay",
   "private": true,
   "scripts": {
-    "postinstall_disabled": "cd apps/web && npx convex deploy && cd ../..",
+    "postinstall": "cd apps/web && npx convex deploy && cd ../..",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
