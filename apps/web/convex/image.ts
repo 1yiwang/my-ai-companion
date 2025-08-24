@@ -394,10 +394,19 @@ export const generateByPrompt = internalAction(
         },
       });
       console.log("Image uploaded, extracting image URL");
-      const urlParts = response.url.split("/");
-      const filename = urlParts[urlParts.length - 1];
+      // Derive the object key from the presigned PUT URL (strip bucket and query)
+      let key = "";
+      try {
+        const u = new URL(String((response as any)?.url || ""));
+        const segments = u.pathname.split("/");
+        key = segments.pop() || "";
+      } catch (_e) {
+        const raw = String((response as any)?.url || "");
+        const last = raw.split("/").pop() || "";
+        key = last.split("?")[0];
+      }
       const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
-      const imageUrl = `${publicBaseUrl}/${filename}`;
+      const imageUrl = `${publicBaseUrl}/${key}`;
       console.log(`Image URL extracted: ${imageUrl}`);
       await ctx.runMutation(internal.images.uploadR2Image, {
         imageId,
@@ -434,10 +443,19 @@ export const upload = action({
       },
     });
     console.log("Image uploaded, extracting image URL");
-    const urlParts = response.url.split("/");
-    const uploadedFilename = urlParts[urlParts.length - 1];
+    // Derive the object key from the presigned PUT URL (strip bucket and query)
+    let key = "";
+    try {
+      const u = new URL(String((response as any)?.url || ""));
+      const segments = u.pathname.split("/");
+      key = segments.pop() || "";
+    } catch (_e) {
+      const raw = String((response as any)?.url || "");
+      const last = raw.split("/").pop() || "";
+      key = last.split("?")[0];
+    }
     const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
-    const imageUrl = `${publicBaseUrl}/${uploadedFilename}`;
+    const imageUrl = `${publicBaseUrl}/${key}`;
     console.log(`Image URL extracted: ${imageUrl}`);
     return imageUrl;
   },
