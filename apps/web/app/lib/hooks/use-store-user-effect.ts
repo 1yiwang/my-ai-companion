@@ -23,7 +23,12 @@ export default function useStoreUserEffect() {
     // Recall that `storeUser` gets the user information via the `auth`
     // object on the server. You don't need to pass anything manually here.
     async function createUser() {
-      const id = await storeUser({ username: user?.username as string });
+      const fallbackFromEmail =
+        // @ts-ignore - Clerk's primaryEmailAddress is available when signed in
+        user?.primaryEmailAddress?.emailAddress?.split?.("@")?.[0];
+      const safeUsername =
+        (user?.username || fallbackFromEmail || user?.firstName || user?.lastName || user?.id || "").toString();
+      const id = await storeUser({ username: safeUsername });
       setUserId(id);
     }
     createUser();
