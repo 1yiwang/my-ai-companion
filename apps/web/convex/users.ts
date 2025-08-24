@@ -99,11 +99,15 @@ export const getUser = async (ctx: any, doNotThrow?: boolean) => {
 
 export const getUsername = query({
   args: {
-    id: v.id("users"),
+    id: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
-    const user = await ctx.db.get(args.id);
-    return user ? user.name : null;
+    const targetId = args.id ?? (await getUser(ctx, true))?._id;
+    if (!targetId) return null;
+    const user = await ctx.db.get(targetId);
+    // Ensure we only read from the users table
+    // @ts-ignore - runtime check guards against wrong table types
+    return (user && (user as any).name) ? (user as any).name : null;
   },
 });
 

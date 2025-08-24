@@ -396,7 +396,8 @@ export const generateByPrompt = internalAction(
       console.log("Image uploaded, extracting image URL");
       const urlParts = response.url.split("/");
       const filename = urlParts[urlParts.length - 1];
-      const imageUrl = `https://r2.openroleplay.ai/${filename}`;
+      const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
+      const imageUrl = `${publicBaseUrl}/${filename}`;
       console.log(`Image URL extracted: ${imageUrl}`);
       await ctx.runMutation(internal.images.uploadR2Image, {
         imageId,
@@ -435,7 +436,8 @@ export const upload = action({
     console.log("Image uploaded, extracting image URL");
     const urlParts = response.url.split("/");
     const uploadedFilename = urlParts[urlParts.length - 1];
-    const imageUrl = `https://r2.openroleplay.ai/${uploadedFilename}`;
+    const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
+    const imageUrl = `${publicBaseUrl}/${uploadedFilename}`;
     console.log(`Image URL extracted: ${imageUrl}`);
     return imageUrl;
   },
