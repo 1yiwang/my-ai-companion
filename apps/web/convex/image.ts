@@ -397,16 +397,16 @@ export const generateByPrompt = internalAction(
       // Derive the object key from the presigned PUT URL (strip bucket and query)
       let key = "";
       try {
-        const u = new URL(String((response as any)?.url || ""));
+        const u = new URL(String((response as any)?.url ?? ""));
         const segments = u.pathname.split("/");
-        key = segments.pop() || "";
+        key = String(segments.pop() ?? "");
       } catch (_e) {
-        const raw = String((response as any)?.url || "");
-        const last = raw.split("/").pop() || "";
-        key = last.split("?")[0];
+        const raw = String((response as any)?.url ?? "");
+        const last = String((raw.split("/").pop() ?? ""));
+        key = String((last.split("?")[0] ?? ""));
       }
-      const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
-      const imageUrl = `${publicBaseUrl}/${key}`;
+      const publicBaseUrl = String(process.env.R2_PUBLIC_BASE_URL ?? "");
+      const imageUrl = `${publicBaseUrl}/${String(key)}`;
       console.log(`Image URL extracted: ${imageUrl}`);
       await ctx.runMutation(internal.images.uploadR2Image, {
         imageId,
@@ -446,16 +446,16 @@ export const upload = action({
     // Derive the object key from the presigned PUT URL (strip bucket and query)
     let key = "";
     try {
-      const u = new URL(String((response as any)?.url || ""));
+      const u = new URL(String((response as any)?.url ?? ""));
       const segments = u.pathname.split("/");
-      key = segments.pop() || "";
+      key = String(segments.pop() ?? "");
     } catch (_e) {
-      const raw = String((response as any)?.url || "");
-      const last = raw.split("/").pop() || "";
-      key = last.split("?")[0];
+      const raw = String((response as any)?.url ?? "");
+      const last = String((raw.split("/").pop() ?? ""));
+      key = String((last.split("?")[0] ?? ""));
     }
-    const publicBaseUrl = process.env.R2_PUBLIC_BASE_URL as string;
-    const imageUrl = `${publicBaseUrl}/${key}`;
+    const publicBaseUrl = String(process.env.R2_PUBLIC_BASE_URL ?? "");
+    const imageUrl = `${publicBaseUrl}/${String(key)}`;
     console.log(`Image URL extracted: ${imageUrl}`);
     return imageUrl;
   },
