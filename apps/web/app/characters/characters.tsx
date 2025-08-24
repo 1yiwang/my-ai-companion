@@ -64,11 +64,7 @@ const Characters = () => {
 
   useEffect(() => {
     if (inView) {
-      if (!me?.name) {
-        setIsSignInModalOpen(true);
-      } else {
-        loadMore(10);
-      }
+      loadMore(10);
     }
   }, [inView, loadMore]);
 

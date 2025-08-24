@@ -12,6 +12,7 @@ import Link from "next/link";
 import { X } from "lucide-react";
 import { Button } from "@repo/ui/src/components";
 import { useSessionStorage } from "@uidotdev/usehooks";
+import { useConvexAuth } from "convex/react";
 
 const SignInDialog = ({
   isOpen,
@@ -22,10 +23,11 @@ const SignInDialog = ({
 }) => {
   const { t } = useTranslation();
   const [isIgnored, setIsIgnored] = useSessionStorage("sign-in-dialog", false);
+  const { isAuthenticated } = useConvexAuth();
 
   return (
     <AlertDialog
-      open={isOpen && !isIgnored}
+      open={isOpen && !isIgnored && !isAuthenticated}
       onOpenChange={(value) => {
         setIsOpen(value);
         if (!value) {
