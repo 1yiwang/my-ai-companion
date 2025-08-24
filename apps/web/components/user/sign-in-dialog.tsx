@@ -28,7 +28,9 @@ const SignInDialog = ({
       open={isOpen && !isIgnored}
       onOpenChange={(value) => {
         setIsOpen(value);
-        setIsIgnored(value);
+        if (!value) {
+          setIsIgnored(true);
+        }
       }}
     >
       <AlertDialogContent>
@@ -57,7 +59,7 @@ const SignInDialog = ({
             </AlertDialogDescription>
           </div>
           <div className="flex flex-col items-center gap-4">
-            <Link href="https://accounts.openroleplay.ai/sign-up">
+            <Link href="/sign-in">
               <AlertDialogAction>{t("Sign up")}</AlertDialogAction>
             </Link>
             <Link
